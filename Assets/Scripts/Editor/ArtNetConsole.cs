@@ -75,7 +75,7 @@ namespace IA
         {
             FindDataMap();
             FindAllHeads();
-            artNetData.dmxUpdate.AddListener(Repaint);
+           // artNetData.dmxUpdate.AddListener(Repaint);
             artNetData.dmxUpdate.AddListener(ArtNetSendUpdate);
             OpenArtNet();
 
@@ -85,7 +85,7 @@ namespace IA
             if (artnet != null)
                 artnet.Close();
             artnet = new ArtNetSocket();
-            var IP = localhost ? FindFromHostName("127.0.0.1"):GetLocalIP();
+            var IP = localhost ? FindFromHostName("192.168.56.1"):GetLocalIP();
             remote = new IPEndPoint(FindFromHostName(remoteIP), ArtNetSocket.Port);
             dmxToSend.DmxData = new byte[512];
             artnet.Open(IP, null);
@@ -172,7 +172,11 @@ namespace IA
                 SelectAll();
             }
             EditorGUILayout.EndHorizontal();
-            activeUniverse = GUILayout.SelectionGrid(activeUniverse, universes, 9);
+            EditorGUILayout.BeginHorizontal();
+       
+            activeUniverse = GUILayout.SelectionGrid(activeUniverse, universes, 9,GUILayout.ExpandWidth(false));
+
+            EditorGUILayout.EndHorizontal();
             EditorGUILayout.BeginHorizontal();
 
             if (activeUniverse != 0)
@@ -201,7 +205,7 @@ namespace IA
                 {
                     OpenArtNet();
                 }
-                isServer[activeUniverse - 1] = EditorGUILayout.ToggleLeft("Serve Art-net", isServer[activeUniverse - 1]) ;
+                isServer[activeUniverse - 1] = EditorGUILayout.ToggleLeft("Serve Art-net", isServer[activeUniverse - 1], GUILayout.Width(150)) ;
                 
                 if (GUILayout.Button("Update Art-net Data", GUILayout.Width(150)))
                 {
@@ -307,7 +311,7 @@ namespace IA
         {
 
             GUILayout.BeginArea(body);
-            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.BeginHorizontal(GUILayout.Width(300));
 
             activeView = GUILayout.SelectionGrid(activeView, views, 2);
             EditorGUILayout.EndHorizontal();
@@ -339,7 +343,7 @@ namespace IA
                 {
                     var packet = e.Packet as ArtNetDmxPacket;
                     var universe = packet.Universe;
-                    //Debug.Log("universe: " + universe);
+                    Debug.Log("universe: " + universe);
                     if (receiveArtNet[universe])
                     {
                         artNetData.SetData(universe, packet.DmxData);

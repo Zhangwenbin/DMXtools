@@ -7,6 +7,9 @@ namespace IA
     [ExecuteAlways]
     public class MovingLight : DMXFixture
     {
+        public int panChannel;
+        public int tilChannel;
+        
         public override int getUniverse { get { return universe; } }
         public override int getDmxAddress { get { return dmxAddress; } }
         //public override int getNumberOfChannels { get {return channelFunctions.Count;} }
@@ -24,7 +27,7 @@ namespace IA
         float panTarget;
         float tiltTarget;
         float maxRotSpeed = 100f;
-        private Dictionary<string, int> channelFunctions = new Dictionary<string, int> { { ChannelName.RED, 0 }, { ChannelName.GREEN, 1 }, { ChannelName.BLUE, 2 }, { ChannelName.WHITE, 3 }, { ChannelName.TILT, 4 }, { ChannelName.PAN, 5 } };
+        private Dictionary<string, int> channelFunctions = new Dictionary<string, int> { { ChannelName.RED, 9 }, { ChannelName.GREEN, 10 }, { ChannelName.BLUE, 11 }, { ChannelName.WHITE, 3 }, { ChannelName.TILT, 11 }, { ChannelName.PAN, 12 } };
 
         float pan;
         float tilt;
@@ -106,8 +109,8 @@ namespace IA
             if (artNetData.dmxDataMap != null)
             {
                 SetColor();
-                SetPan();
-                SetTilt();
+               // SetPan();
+               // SetTilt();
             }
         }
         void OnDisable()
